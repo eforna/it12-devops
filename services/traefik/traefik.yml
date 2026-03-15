@@ -1,0 +1,23 @@
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+    tls:
+      certificates:
+        - certFile: "/certs/dns-server.crt"
+          keyFile: "/certs/dns-server.key"
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: devops-net
+
+log:
+  level: INFO
+
+accessLog: {}

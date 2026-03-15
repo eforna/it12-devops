@@ -1,0 +1,23 @@
+# Harbor configuration — copiar a harbor.yml i ajustar
+# Instal·lació: cd /opt/devops/harbor/harbor && sudo ./install.sh
+
+hostname: harbor.devops.lab
+
+http:
+  port: 8888
+
+# https:  # Descomentar quan es configuri TLS
+#   port: 443
+#   certificate: /certs/harbor.crt
+#   private_key: /certs/harbor.key
+
+harbor_admin_password: CANVIAR_PER_CONTRASENYA_SEGURA
+
+data_volume: /mnt/btrfs-data/harbor
+
+log:
+  level: info
+  local:
+    rotate_count: 50
+    rotate_size: 200M
+    location: /var/log/harbor

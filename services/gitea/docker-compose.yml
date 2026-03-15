@@ -1,0 +1,47 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    restart: always
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db-gitea:5432
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASS=${GITEA_DB_PASSWORD}
+      - GITEA__database__NAME=gitea
+      - GITEA__server__DOMAIN=gitea.devops.lab
+      - GITEA__server__ROOT_URL=http://gitea.devops.lab
+      - GITEA__server__SSH_DOMAIN=192.168.2.5
+      - GITEA__server__SSH_PORT=222
+    volumes:
+      - /mnt/btrfs-data/gitea:/data
+    ports:
+      - "222:22"
+    networks:
+      - devops-net
+    depends_on:
+      - db-gitea
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea.rule=Host(`gitea.devops.lab`)"
+      - "traefik.http.routers.gitea.entrypoints=web"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
+
+  db-gitea:
+    image: postgres:15
+    container_name: db-gitea
+    restart: always
+    environment:
+      POSTGRES_DB: gitea
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: ${GITEA_DB_PASSWORD}
+    volumes:
+      - /mnt/btrfs-data/db-gitea:/var/lib/postgresql/data
+    networks:
+      - devops-net
+
+networks:
+  devops-net:
+    external: true

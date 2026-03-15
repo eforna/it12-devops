@@ -1,0 +1,26 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    restart: always
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - KC_PROXY=edge
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME=keycloak.devops.lab
+      - KC_HOSTNAME_STRICT=false
+    command: start-dev
+    volumes:
+      - /mnt/btrfs-data/keycloak:/opt/keycloak/data
+    networks:
+      - devops-net
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.devops.lab`)"
+      - "traefik.http.routers.keycloak.entrypoints=web"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+
+networks:
+  devops-net:
+    external: true
