@@ -1,7 +1,7 @@
 #!/bin/bash
 # deploy.sh — Sincronitza el repo it12-devops amb el filesystem del servidor
-# Ubicació: /home/edu/deploy.sh
-# Ús: bash ~/deploy.sh [--dry-run]
+# Ubicació: /opt/devops/deploy.sh
+# Ús: bash /opt/devops/deploy.sh [--dry-run]
 #
 # El repo és un mirror de l'arrel del servidor:
 #   repo/opt/devops/   →  /opt/devops/

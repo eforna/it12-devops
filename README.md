@@ -24,8 +24,7 @@ it12-devops/               →   /  (arrel del servidor)
 ├── etc/
 │   ├── netplan/99-dns.yaml
 │   └── docker/daemon.json
-└── home/edu/
-    └── deploy.sh
+│   └── deploy.sh
 ```
 
 ## Primera instal·lació al servidor
@@ -34,16 +33,12 @@ it12-devops/               →   /  (arrel del servidor)
 # 1. Clonar el repo
 git clone git@github.com:eforna/it12-devops.git ~/it12-devops
 
-# 2. Copiar el deploy.sh al lloc correcte
-cp ~/it12-devops/home/edu/deploy.sh ~/deploy.sh
-chmod +x ~/deploy.sh
-
-# 3. Preparar les credencials
+# 2. Preparar les credencials
 cp ~/it12-devops/opt/devops/.env.example /opt/devops/.env
 nano /opt/devops/.env   # omplir les contrasenyes
 
-# 4. Fer el deploy
-bash ~/deploy.sh
+# 3. Fer el deploy
+bash ~/it12-devops/opt/devops/deploy.sh
 ```
 
 ## Flux de treball habitual
@@ -53,7 +48,7 @@ bash ~/deploy.sh
 
 # Al servidor: actualitzar i desplegar
 cd ~/it12-devops && git pull
-bash ~/deploy.sh
+bash /opt/devops/deploy.sh
 
 # Si cal reiniciar un servei
 cd /opt/devops/traefik && docker compose up -d
@@ -64,8 +59,8 @@ cd /opt/devops/traefik && docker compose up -d
 Sincronitza el repo amb el filesystem via `rsync`. Suporta `--dry-run` per previsualitzar canvis sense aplicar-los:
 
 ```bash
-bash ~/deploy.sh --dry-run   # previsualitzar
-bash ~/deploy.sh             # aplicar
+bash /opt/devops/deploy.sh --dry-run   # previsualitzar
+bash /opt/devops/deploy.sh             # aplicar
 ```
 
 ## Documentació
