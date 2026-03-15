@@ -1,6 +1,6 @@
 #!/bin/bash
 # Backup setmanal complet al NAS Synology
-# Cron: 0 2 * * 0 /opt/devops/backup.sh
+# Cron: 0 2 * * 0 /opt/devops/backup/backup.sh
 
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="/mnt/nas-backup/it12-devops/${DATE}"

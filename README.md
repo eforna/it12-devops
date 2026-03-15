@@ -15,10 +15,12 @@ it12-devops/               →   /  (arrel del servidor)
 │   ├── keycloak/
 │   ├── portainer/
 │   ├── harbor/
-│   ├── backup.sh
-│   ├── backup_snapshots.sh
-│   ├── snapshot.sh
-│   └── restore-snapshot.sh
+│   ├── backup/
+│   │   ├── backup.sh
+│   │   └── backup_snapshots.sh
+│   └── snapshots/
+│       ├── snapshot.sh
+│       └── restore-snapshot.sh
 ├── etc/
 │   ├── netplan/99-dns.yaml
 │   └── docker/daemon.json

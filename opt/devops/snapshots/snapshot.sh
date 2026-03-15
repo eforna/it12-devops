@@ -1,6 +1,6 @@
 #!/bin/bash
 # Snapshots BTRFS diaris de tots els serveis
-# Cron: 0 1 * * * /opt/devops/snapshot.sh
+# Cron: 0 1 * * * /opt/devops/snapshots/snapshot.sh
 
 DATE=$(date +%Y%m%d_%H%M%S)
 LOG_FILE="/var/log/snapshot-it12.log"

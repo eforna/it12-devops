@@ -1,6 +1,6 @@
 #!/bin/bash
 # Backup diari dels snapshots BTRFS al NAS
-# Cron: 0 3 * * * /opt/devops/backup_snapshots.sh
+# Cron: 0 3 * * * /opt/devops/backup/backup_snapshots.sh
 
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="/mnt/nas-backup/it12-devops/${DATE}_snapshots"

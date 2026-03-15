@@ -34,7 +34,8 @@ sudo rsync -av --relative $DRY_RUN \
 
 # Permisos scripts
 if [ -z "$DRY_RUN" ]; then
-    sudo chmod +x /opt/devops/*.sh
+    sudo chmod +x /opt/devops/backup/*.sh
+    sudo chmod +x /opt/devops/snapshots/*.sh
 fi
 
 # /etc/netplan/
