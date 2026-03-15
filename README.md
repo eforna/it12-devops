@@ -2,60 +2,68 @@
 
 Fitxers de configuració del servidor DevOps (IT12-DEVOPS, 192.168.2.5).
 
-Conté els `docker-compose.yml`, scripts i configuracions del sistema que s'apliquen
-directament al servidor. Es clona a `/opt/devops/` a la màquina Ubuntu.
-
-## Estructura
-
-L'estructura del repo és un **mirror** de `/opt/devops/` al servidor.
-Clonar a `/opt/devops/` fa que cada fitxer quedi al path correcte directament.
+L'estructura del repo és un **mirror complet del filesystem** del servidor.
+Cada fitxer del repo té el mateix path relatiu que al servidor:
 
 ```
-it12-devops/              →  /opt/devops/
-├── traefik/              →  /opt/devops/traefik/
-├── gitea/                →  /opt/devops/gitea/
-├── jenkins/              →  /opt/devops/jenkins/
-├── portainer/            →  /opt/devops/portainer/
-├── grafana/              →  /opt/devops/grafana/
-├── keycloak/             →  /opt/devops/keycloak/
-├── harbor/               →  /opt/devops/harbor/
-├── backup.sh             →  /opt/devops/backup.sh
-├── backup_snapshots.sh   →  /opt/devops/backup_snapshots.sh
-├── snapshot.sh           →  /opt/devops/snapshot.sh
-├── restore-snapshot.sh   →  /opt/devops/restore-snapshot.sh
-├── .env.example          →  /opt/devops/.env  (copiar i omplir)
-└── config/               →  referència — deploy manual (veure més avall)
-    ├── netplan/99-dns.yaml     →  /etc/netplan/99-dns.yaml
-    └── docker/daemon.json      →  /etc/docker/daemon.json
+it12-devops/               →   /  (arrel del servidor)
+├── opt/devops/            →   /opt/devops/
+│   ├── traefik/
+│   ├── gitea/
+│   ├── jenkins/
+│   ├── grafana/
+│   ├── keycloak/
+│   ├── portainer/
+│   ├── harbor/
+│   ├── backup.sh
+│   ├── backup_snapshots.sh
+│   ├── snapshot.sh
+│   └── restore-snapshot.sh
+├── etc/
+│   ├── netplan/99-dns.yaml
+│   └── docker/daemon.json
+└── home/edu/
+    └── deploy.sh
 ```
 
-## Ús
+## Primera instal·lació al servidor
 
 ```bash
-# Primera vegada al servidor
-git clone git@github.com:eforna/it12-devops.git /opt/devops
-cd /opt/devops
-cp .env.example .env && nano .env   # omplir les contrasenyes
+# 1. Clonar el repo
+git clone git@github.com:eforna/it12-devops.git ~/it12-devops
 
-# Arrancar un servei
+# 2. Copiar el deploy.sh al lloc correcte
+cp ~/it12-devops/home/edu/deploy.sh ~/deploy.sh
+chmod +x ~/deploy.sh
+
+# 3. Preparar les credencials
+cp ~/it12-devops/opt/devops/.env.example /opt/devops/.env
+nano /opt/devops/.env   # omplir les contrasenyes
+
+# 4. Fer el deploy
+bash ~/deploy.sh
+```
+
+## Flux de treball habitual
+
+```bash
+# Al Mac (VSCode): editar fitxers → commit → push
+
+# Al servidor: actualitzar i desplegar
+cd ~/it12-devops && git pull
+bash ~/deploy.sh
+
+# Si cal reiniciar un servei
 cd /opt/devops/traefik && docker compose up -d
-
-# Actualitzar després d'un canvi des del Mac
-cd /opt/devops && git pull
 ```
 
-## Fitxers de sistema (config/)
+## deploy.sh
 
-Aquests fitxers no es poden desplegar amb `git pull` perquè van a `/etc/`.
-Cal copiar-los manualment la primera vegada (o quan canviïn):
+Sincronitza el repo amb el filesystem via `rsync`. Suporta `--dry-run` per previsualitzar canvis sense aplicar-los:
 
 ```bash
-sudo cp /opt/devops/config/netplan/99-dns.yaml /etc/netplan/
-sudo chmod 600 /etc/netplan/99-dns.yaml
-sudo netplan apply
-
-sudo cp /opt/devops/config/docker/daemon.json /etc/docker/
-sudo systemctl restart docker
+bash ~/deploy.sh --dry-run   # previsualitzar
+bash ~/deploy.sh             # aplicar
 ```
 
 ## Documentació
