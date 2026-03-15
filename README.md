@@ -8,6 +8,7 @@ Cada fitxer del repo té el mateix path relatiu que al servidor:
 ```
 it12-devops/               →   /  (arrel del servidor)
 ├── opt/devops/            →   /opt/devops/
+│   ├── deploy.sh
 │   ├── traefik/
 │   ├── gitea/
 │   ├── jenkins/
@@ -21,10 +22,9 @@ it12-devops/               →   /  (arrel del servidor)
 │   └── snapshots/
 │       ├── snapshot.sh
 │       └── restore-snapshot.sh
-├── etc/
-│   ├── netplan/99-dns.yaml
-│   └── docker/daemon.json
-│   └── deploy.sh
+└── etc/
+    ├── netplan/99-dns.yaml
+    └── docker/daemon.json
 ```
 
 ## Primera instal·lació al servidor
@@ -33,12 +33,12 @@ it12-devops/               →   /  (arrel del servidor)
 # 1. Clonar el repo
 git clone git@github.com:eforna/it12-devops.git ~/it12-devops
 
-# 2. Preparar les credencials
-cp ~/it12-devops/opt/devops/.env.example /opt/devops/.env
-nano /opt/devops/.env   # omplir les contrasenyes
-
-# 3. Fer el deploy
+# 2. Fer el deploy (crea /opt/devops/ i copia tots els fitxers)
 bash ~/it12-devops/opt/devops/deploy.sh
+
+# 3. Preparar les credencials
+cp /opt/devops/.env.example /opt/devops/.env
+nano /opt/devops/.env   # omplir les contrasenyes
 ```
 
 ## Flux de treball habitual
