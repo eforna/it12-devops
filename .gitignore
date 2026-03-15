@@ -1,0 +1,16 @@
+# Variables d'entorn sensibles
+.env
+!.env.example
+
+# Claus i certificats
+*.key
+*.pem
+*.crt
+!*.crt.example
+
+# Harbor genera fitxers locals propis durant la instal·lació
+services/harbor/harbor/common/
+services/harbor/harbor/harbor.cfg
+
+# macOS
+.DS_Store
