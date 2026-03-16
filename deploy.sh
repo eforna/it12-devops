@@ -26,7 +26,7 @@ echo "========================================="
 # /opt/devops/
 echo ""
 echo "[1/3] Sincronitzant /opt/devops/..."
-sudo rsync -av --relative $DRY_RUN \
+sudo rsync -av $DRY_RUN \
     --exclude='.git' \
     --exclude='.env.example' \
     --exclude='harbor/harbor.yml.example' \
