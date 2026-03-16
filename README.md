@@ -67,7 +67,30 @@ bash ~/it12-devops/deploy.sh --dry-run   # previsualitzar
 bash ~/it12-devops/deploy.sh             # aplicar
 ```
 
+## Resolució de problemes
+
+### deploy.sh — error CRLF (`$'\r': command not found`)
+
+Els fitxers editats des de Windows/VSCode poden tenir salts de línia CRLF.
+El `.gitattributes` del repo força LF, però si el problema persisteix:
+
+```bash
+sed -i $'s/\r//' ~/it12-devops/deploy.sh
+```
+
+### git pull — "local changes would be overwritten"
+
+Passa quan `sed` ha modificat `deploy.sh` localment:
+
+```bash
+rm ~/it12-devops/deploy.sh && git pull
+```
+
+---
+
 ## Documentació
 
 Consulta el repo [devops-lab-doc](https://github.com/eforna/devops-lab-doc)
 per a guies pas a pas, notes d'instal·lació i resolució d'errors.
+
+Vegeu també: [journal/25_primer-deploy-it12-devops.md](https://github.com/eforna/devops-lab-doc/blob/main/journal/25_primer-deploy-it12-devops.md)
