@@ -1,7 +1,7 @@
 #!/bin/bash
 # deploy.sh — Sincronitza el repo it12-devops amb el filesystem del servidor
-# Ubicació: /opt/devops/deploy.sh
-# Ús: bash /opt/devops/deploy.sh [--dry-run]
+# Ubicació: ~/it12-devops/deploy.sh  (arrel del repo, no es copia al servidor)
+# Ús: bash ~/it12-devops/deploy.sh [--dry-run]
 #
 # El repo és un mirror de l'arrel del servidor:
 #   repo/opt/devops/   →  /opt/devops/
@@ -10,7 +10,7 @@
 
 set -e
 
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DRY_RUN=""
 
 if [ "$1" == "--dry-run" ]; then
