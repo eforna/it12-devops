@@ -38,9 +38,11 @@ git clone git@github.com:eforna/it12-devops.git ~/it12-devops
 # 2. Fer el deploy (crea /opt/devops/ i copia tots els fitxers)
 bash ~/it12-devops/deploy.sh
 
-# 3. Preparar les credencials
-cp /opt/devops/.env.example /opt/devops/.env
-nano /opt/devops/.env   # omplir les contrasenyes
+# 3. Preparar les credencials  ⚠️ IMPORTANT
+# .env.example NO es copia al servidor (exclòs del rsync per seguretat)
+# Cal copiar-lo des del repo local:
+cp ~/it12-devops/opt/devops/.env.example /opt/devops/.env
+nano /opt/devops/.env   # omplir les contrasenyes reals
 ```
 
 ## Flux de treball habitual
