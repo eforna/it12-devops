@@ -32,10 +32,17 @@ sudo rsync -av $DRY_RUN \
     --exclude='harbor/harbor.yml.example' \
     "${REPO_DIR}/opt/devops/" /opt/devops/
 
-# Permisos scripts
+# Permisos scripts + symlinks .env per a cada servei
 if [ -z "$DRY_RUN" ]; then
     sudo chmod +x /opt/devops/backup/*.sh
     sudo chmod +x /opt/devops/snapshots/*.sh
+
+    # Symlinks .env: docker compose busca .env al directori del servei
+    for svc in traefik gitea jenkins grafana keycloak portainer harbor; do
+        if [ -d "/opt/devops/${svc}" ]; then
+            sudo ln -sf /opt/devops/.env /opt/devops/${svc}/.env
+        fi
+    done
 fi
 
 # /etc/netplan/
